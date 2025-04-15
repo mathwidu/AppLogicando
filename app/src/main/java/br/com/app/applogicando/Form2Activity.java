@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -35,6 +36,12 @@ public class Form2Activity extends AppCompatActivity {
                 Toast.makeText(this, "Por favor, responda todas as perguntas obrigatórias.", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            DadosFormulario.beneficios = ((RadioButton)findViewById(radioBeneficios.getCheckedRadioButtonId())).getText().toString();
+            DadosFormulario.trocas = ((RadioButton)findViewById(radioTrocas.getCheckedRadioButtonId())).getText().toString();
+            DadosFormulario.comprometimento = ((RadioButton)findViewById(radioComprometimento.getCheckedRadioButtonId())).getText().toString();
+            DadosFormulario.planejamento = ((RadioButton)findViewById(radioPlanejamento.getCheckedRadioButtonId())).getText().toString();
+            DadosFormulario.comentarioParticipacao = editComentariosParticipacao.getText().toString();
 
             Intent intent = new Intent(Form2Activity.this, Form3Activity.class);
             startActivity(intent);

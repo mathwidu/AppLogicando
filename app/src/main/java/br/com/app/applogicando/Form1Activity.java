@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -34,7 +35,9 @@ public class Form1Activity extends AppCompatActivity {
                 return;
             }
 
-            // Em breve: passar dados para próxima tela com Intent.putExtra
+            DadosFormulario.local = ((RadioButton)findViewById(selectedLocal)).getText().toString();
+            DadosFormulario.horario = ((RadioButton)findViewById(selectedHorario)).getText().toString();
+            DadosFormulario.comentarioOrg = comentarios;
 
             Intent intent = new Intent(Form1Activity.this, Form2Activity.class);
             startActivity(intent);

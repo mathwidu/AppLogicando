@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -29,7 +30,16 @@ public class Form3Activity extends AppCompatActivity {
                 return;
             }
 
-            String comentarios = editComentariosDivulgacao.getText().toString();
+            DadosFormulario.divulgacao = ((RadioButton)findViewById(radioDivulgacao.getCheckedRadioButtonId())).getText().toString();
+            DadosFormulario.comentarioDivulgacao = editComentariosDivulgacao.getText().toString();
+
+            Resposta r = new Resposta(
+                    DadosFormulario.local, DadosFormulario.horario, DadosFormulario.comentarioOrg,
+                    DadosFormulario.beneficios, DadosFormulario.trocas, DadosFormulario.comprometimento, DadosFormulario.planejamento, DadosFormulario.comentarioParticipacao,
+                    DadosFormulario.divulgacao, DadosFormulario.comentarioDivulgacao
+            );
+
+            Exportador.exportar(Form3Activity.this, r);
 
             Intent intent = new Intent(Form3Activity.this, ObrigadoActivity.class);
             startActivity(intent);
