@@ -21,7 +21,7 @@ public class Exportador {
         try {
             File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
             if (!dir.exists()) {
-                dir.mkdirs(); // Cria a pasta caso não exista
+                dir.mkdirs();
             }
 
             File file = new File(dir, "respostas.csv");
@@ -51,7 +51,7 @@ public class Exportador {
         try {
             File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
             if (!dir.exists()) {
-                dir.mkdirs(); // Cria a pasta caso não exista
+                dir.mkdirs();
             }
 
             File file = new File(dir, "respostas.json");

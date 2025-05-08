@@ -19,5 +19,11 @@ public class ObrigadoActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        Button btnFeedback = findViewById(R.id.btnFeedbackApp);
+        btnFeedback.setOnClickListener(v -> {
+            Intent intent = new Intent(ObrigadoActivity.this, FeedbackAppActivity.class);
+            startActivity(intent);
+        });
     }
 }

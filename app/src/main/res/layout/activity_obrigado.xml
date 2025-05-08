@@ -23,4 +23,13 @@
         android:text="Voltar ao Início"
         android:backgroundTint="#6200EE"
         android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/btnFeedbackApp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Avaliar o Aplicativo"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#2196F3"
+        android:textColor="#FFFFFF" />
 </LinearLayout>
