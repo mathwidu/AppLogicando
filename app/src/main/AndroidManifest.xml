@@ -36,6 +36,9 @@
         <!-- tela ver formularios-->
         <activity android:name=".ListarFormulariosActivity" />
 
+        <!-- Lista de formulários para alunos -->
+        <activity android:name=".ListaFormulariosAlunoActivity" />
+
         <!-- Tela de login (inicial do app) -->
         <activity
             android:name=".LoginActivity"
