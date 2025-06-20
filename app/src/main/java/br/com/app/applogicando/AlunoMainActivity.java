@@ -21,8 +21,8 @@ public class AlunoMainActivity extends AppCompatActivity {
         btnSairAluno = findViewById(R.id.btnSairAluno);
 
         btnFormulariosDisponiveis.setOnClickListener(v -> {
-            //Intent intent = new Intent(this, ListaFormulariosAlunoActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(this, ListaFormulariosAlunoActivity.class);
+            startActivity(intent);
         });
 
         btnSairAluno.setOnClickListener(v -> {
