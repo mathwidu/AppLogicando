@@ -59,10 +59,10 @@ public class CadastroActivity extends AppCompatActivity {
                 conn.setDoOutput(true);
 
                 JSONObject json = new JSONObject();
-                json.put("nome", nome);
+                json.put("name", nome);
                 json.put("username", username);
-                json.put("senha", senha);
-                json.put("papel", papel);
+                json.put("password", senha);
+                json.put("role", papel);
 
                 OutputStream os = conn.getOutputStream();
                 os.write(json.toString().getBytes());
