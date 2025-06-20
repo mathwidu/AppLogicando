@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AppLogicando</string>
+
+    <string-array name="tipos_pergunta">
+        <item>TEXTO</item>
+        <item>MULTIPLA_ESCOLHA</item>
+    </string-array>
+
 </resources>

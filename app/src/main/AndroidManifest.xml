@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissões -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28"/>
+        android:maxSdkVersion="28" />
 
     <application
         android:allowBackup="true"
@@ -16,20 +18,34 @@
         android:theme="@style/Theme.AppLogicando"
         tools:targetApi="31">
 
-        <activity android:name=".ObrigadoActivity" />
-        <activity android:name=".FeedbackAppActivity" />
-        <activity android:name=".Form3Activity" />
-        <activity android:name=".Form2Activity" />
-        <activity android:name=".Form1Activity" />
+        <!-- Tela de cadastro -->
+        <activity android:name=".CadastroActivity" />
 
+        <!-- Tela principal do aluno -->
+        <activity android:name=".AlunoMainActivity" />
+
+        <!-- Tela principal do professor -->
+        <activity android:name=".ProfessorMainActivity" />
+
+        <!-- Tela Criar Formulario-->
+        <activity android:name=".CriarFormularioActivity" />
+
+        <!-- Tela Criar Perguntas-->
+        <activity android:name=".CriarPerguntaActivity" />
+
+        <!-- tela ver formularios-->
+        <activity android:name=".ListarFormulariosActivity" />
+
+        <!-- Tela de login (inicial do app) -->
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
