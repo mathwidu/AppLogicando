@@ -36,6 +36,9 @@
         <!-- tela ver formularios-->
         <activity android:name=".ListarFormulariosActivity" />
 
+        <!-- Tela para visualizar respostas -->
+        <activity android:name=".VisualizarRespostasActivity" />
+
         <!-- Lista de formulários para alunos -->
         <activity android:name=".ListaFormulariosAlunoActivity" />
 
