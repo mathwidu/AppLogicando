@@ -17,49 +17,41 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class ListarFormulariosActivity extends AppCompatActivity {
+public class VisualizarRespostasActivity extends AppCompatActivity {
 
-    private ListView listViewFormularios;
-    private Button btnVoltar;
-    private final ArrayList<String> listaFormularios = new ArrayList<>();
-    private final ArrayList<String> listaFormularioIds = new ArrayList<>();
+    private ListView listViewRespostas;
+    private Button btnVoltarRespostas;
+    private final ArrayList<String> listaRespostas = new ArrayList<>();
     private ArrayAdapter<String> adapter;
 
     private String username;
     private String senha;
+    private String formularioId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_listar_formularios);
+        setContentView(R.layout.activity_visualizar_respostas);
 
-        listViewFormularios = findViewById(R.id.listViewFormularios);
-        btnVoltar = findViewById(R.id.btnVoltar);
+        listViewRespostas = findViewById(R.id.listViewRespostas);
+        btnVoltarRespostas = findViewById(R.id.btnVoltarRespostas);
 
         username = getIntent().getStringExtra("username");
         senha = getIntent().getStringExtra("senha");
+        formularioId = getIntent().getStringExtra("formularioId");
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaFormularios);
-        listViewFormularios.setAdapter(adapter);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaRespostas);
+        listViewRespostas.setAdapter(adapter);
 
-        listViewFormularios.setOnItemClickListener((parent, view, position, id) -> {
-            String formularioId = listaFormularioIds.get(position);
-            android.content.Intent intent = new android.content.Intent(this, VisualizarRespostasActivity.class);
-            intent.putExtra("formularioId", formularioId);
-            intent.putExtra("username", username);
-            intent.putExtra("senha", senha);
-            startActivity(intent);
-        });
+        btnVoltarRespostas.setOnClickListener(v -> finish());
 
-        btnVoltar.setOnClickListener(view -> finish());
-
-        carregarFormularios();
+        carregarRespostas();
     }
 
-    private void carregarFormularios() {
+    private void carregarRespostas() {
         new Thread(() -> {
             try {
-                URL url = new URL("https://logicando-api.onrender.com/formularios");
+                URL url = new URL("https://logicando-api.onrender.com/respostas/formulario/" + formularioId);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
 
@@ -79,21 +71,13 @@ public class ListarFormulariosActivity extends AppCompatActivity {
 
                     JSONArray jsonArray = new JSONArray(response.toString());
 
-                    listaFormularios.clear();
-                    listaFormularioIds.clear();
+                    listaRespostas.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject formulario = jsonArray.getJSONObject(i);
-                        String id = formulario.optString("id");
-                        String titulo = formulario.getString("titulo");
-                        String criador = formulario.getString("criadorNome");
-                        String criadoEm = formulario.getString("criadoEm");
-
-                        listaFormularioIds.add(id);
-                        listaFormularios.add(titulo + "\nCriado por: " + criador + "\nEm: " + criadoEm);
+                        JSONObject resposta = jsonArray.getJSONObject(i);
+                        listaRespostas.add(resposta.toString());
                     }
 
                     runOnUiThread(() -> adapter.notifyDataSetChanged());
-
                 } else {
                     BufferedReader errorReader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
                     StringBuilder errorResponse = new StringBuilder();
@@ -103,7 +87,7 @@ public class ListarFormulariosActivity extends AppCompatActivity {
                     }
                     errorReader.close();
 
-                    String errorMsg = "Erro ao buscar formulários.\nCódigo: " + responseCode +
+                    String errorMsg = "Erro ao buscar respostas.\nCódigo: " + responseCode +
                             "\nMensagem: " + errorResponse.toString();
 
                     runOnUiThread(() -> Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show());
@@ -117,3 +101,4 @@ public class ListarFormulariosActivity extends AppCompatActivity {
         }).start();
     }
 }
+
