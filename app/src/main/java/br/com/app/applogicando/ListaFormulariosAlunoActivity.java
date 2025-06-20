@@ -1,6 +1,7 @@
 package br.com.app.applogicando;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,7 @@ public class ListaFormulariosAlunoActivity extends AppCompatActivity {
     private ListView listViewFormularios;
     private Button btnVoltarAluno;
     private final ArrayList<String> listaFormularios = new ArrayList<>();
+    private final ArrayList<String> listaFormulariosIds = new ArrayList<>();
     private ArrayAdapter<String> adapter;
 
     @Override
@@ -35,6 +37,13 @@ public class ListaFormulariosAlunoActivity extends AppCompatActivity {
         btnVoltarAluno = findViewById(R.id.btnVoltarAluno);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaFormularios);
         listViewFormularios.setAdapter(adapter);
+
+        listViewFormularios.setOnItemClickListener((parent, view, position, id) -> {
+            String formularioId = listaFormulariosIds.get(position);
+            Intent intent = new Intent(this, ResponderFormularioActivity.class);
+            intent.putExtra("formularioId", formularioId);
+            startActivity(intent);
+        });
 
         btnVoltarAluno.setOnClickListener(v -> finish());
 
@@ -69,10 +78,13 @@ public class ListaFormulariosAlunoActivity extends AppCompatActivity {
                     JSONArray jsonArray = new JSONArray(response.toString());
 
                     listaFormularios.clear();
+                    listaFormulariosIds.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject formulario = jsonArray.getJSONObject(i);
                         String titulo = formulario.getString("titulo");
+                        String id = formulario.getString("id");
                         listaFormularios.add(titulo);
+                        listaFormulariosIds.add(id);
                     }
 
                     runOnUiThread(() -> adapter.notifyDataSetChanged());
