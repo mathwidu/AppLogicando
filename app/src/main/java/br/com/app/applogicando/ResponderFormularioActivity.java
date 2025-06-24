@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -155,13 +154,9 @@ public class ResponderFormularioActivity extends AppCompatActivity {
                     }
                     JSONObject respObj = new JSONObject();
                     respObj.put("perguntaId", p.id);
-                    respObj.put("resposta", resposta);
+                    respObj.put("respostaTexto", resposta);
                     respostasArray.put(respObj);
                 }
-
-                JSONObject payload = new JSONObject();
-                payload.put("formularioId", formularioId);
-                payload.put("respostas", respostasArray);
 
                 URL url = new URL("https://logicando-api.onrender.com/respostas");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -171,13 +166,13 @@ public class ResponderFormularioActivity extends AppCompatActivity {
                 conn.setDoOutput(true);
 
                 OutputStream os = conn.getOutputStream();
-                os.write(payload.toString().getBytes());
+                os.write(respostasArray.toString().getBytes());
                 os.flush();
                 os.close();
 
                 int responseCode = conn.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK ||
-                        responseCode == HttpURLConnection.HTTP_CREATED) {
+                if (responseCode >= HttpURLConnection.HTTP_OK &&
+                        responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
                     runOnUiThread(() -> {
                         Toast.makeText(this, "Respostas enviadas com sucesso!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(this, AlunoMainActivity.class);
