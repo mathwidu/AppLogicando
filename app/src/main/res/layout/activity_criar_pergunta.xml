@@ -75,5 +75,15 @@
             android:backgroundTint="#4CAF50"
             android:textColor="#FFFFFF"
             android:padding="12dp" />
+
+        <Button
+            android:id="@+id/btnFinalizarPerguntas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Finalizar"
+            android:backgroundTint="#2196F3"
+            android:textColor="#FFFFFF"
+            android:padding="12dp"
+            android:layout_marginTop="16dp" />
     </LinearLayout>
 </ScrollView>

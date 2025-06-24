@@ -1,6 +1,7 @@
 package br.com.app.applogicando;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ public class CriarPerguntaActivity extends AppCompatActivity {
     EditText editOpcao1, editOpcao2, editOpcao3;
     Spinner spinnerTipoPergunta;
     Button btnAdicionarPergunta;
+    Button btnFinalizarPerguntas;
     String formularioId;
 
     @Override
@@ -42,6 +44,7 @@ public class CriarPerguntaActivity extends AppCompatActivity {
         editTextoPergunta = findViewById(R.id.editTextoPergunta);
         spinnerTipoPergunta = findViewById(R.id.spinnerTipoPergunta);
         btnAdicionarPergunta = findViewById(R.id.btnAdicionarPergunta);
+        btnFinalizarPerguntas = findViewById(R.id.btnFinalizarPerguntas);
         editOpcao1 = findViewById(R.id.editOpcao1);
         editOpcao2 = findViewById(R.id.editOpcao2);
         editOpcao3 = findViewById(R.id.editOpcao3);
@@ -89,6 +92,13 @@ public class CriarPerguntaActivity extends AppCompatActivity {
             String token = prefs.getString("token", null);
 
             adicionarPergunta(formularioId, texto, tipo, token, opcoes);
+        });
+
+        btnFinalizarPerguntas.setOnClickListener(v -> {
+            Toast.makeText(this, "Formulário concluído!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, ProfessorMainActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 
