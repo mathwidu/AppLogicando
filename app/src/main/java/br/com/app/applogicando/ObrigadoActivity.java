@@ -17,6 +17,7 @@ public class ObrigadoActivity extends AppCompatActivity {
             Intent intent = new Intent(ObrigadoActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             finish();
         });
 
@@ -24,6 +25,13 @@ public class ObrigadoActivity extends AppCompatActivity {
         btnFeedback.setOnClickListener(v -> {
             Intent intent = new Intent(ObrigadoActivity.this, FeedbackAppActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

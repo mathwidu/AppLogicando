@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="?attr/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,24 +24,22 @@
             android:textSize="22sp"
             android:textStyle="bold"
             android:paddingTop="16dp"
-            android:textColor="#000000" />
+            android:textColor="?attr/colorOnBackground" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Este questionário tem como objetivo avaliar a experiência dos participantes nas atividades do projeto Logicando. Sua opinião é muito importante para melhorarmos continuamente. O preenchimento é anônimo e rápido."
             android:textSize="16sp"
-            android:textColor="#333333"
+            android:textColor="?attr/colorOnBackground"
             android:lineSpacingExtra="8dp"
             android:layout_marginTop="24dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnComecar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Começar Avaliação"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="#6200EE"
-            android:textColor="#FFFFFF" />
+            android:layout_marginTop="32dp" />
     </LinearLayout>
 </ScrollView>

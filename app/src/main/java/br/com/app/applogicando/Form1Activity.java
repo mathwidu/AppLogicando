@@ -41,6 +41,13 @@ public class Form1Activity extends AppCompatActivity {
 
             Intent intent = new Intent(Form1Activity.this, Form2Activity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

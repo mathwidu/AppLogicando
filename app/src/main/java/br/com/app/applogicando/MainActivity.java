@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, Form1Activity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }
 }

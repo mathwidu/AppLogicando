@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:padding="32dp"
     android:gravity="center"
-    android:background="#FFFFFF">
+    android:background="?attr/colorBackground">
 
     <TextView
         android:layout_width="wrap_content"
@@ -16,20 +16,17 @@
         android:textColor="#4CAF50"
         android:layout_marginBottom="32dp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnVoltarInicio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Voltar ao Início"
-        android:backgroundTint="#6200EE"
-        android:textColor="#FFFFFF" />
+        android:layout_marginTop="0dp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnFeedbackApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Avaliar o Aplicativo"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#2196F3"
-        android:textColor="#FFFFFF" />
+        android:layout_marginTop="16dp" />
 </LinearLayout>

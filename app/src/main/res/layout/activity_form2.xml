@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="?attr/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,19 +11,37 @@
         android:padding="24dp">
 
         <TextView
+            android:id="@+id/textProgresso2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Etapa 2 de 3"
+            android:textColor="?attr/colorOnBackground"
+            android:gravity="center"
+            android:paddingBottom="8dp" />
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progress="66"
+            android:max="100"
+            android:indeterminate="false" />
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Participação no Projeto"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#000000"
+            android:textColor="?attr/colorOnBackground"
             android:layout_marginBottom="16dp" />
 
         <!-- Pergunta 1 -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1. Quanto aos benefícios que o projeto proporciona, estou:" />
+            android:text="1. Quanto aos benefícios que o projeto proporciona, estou:"
+            android:labelFor="@+id/radioBeneficios" />
         <RadioGroup
             android:id="@+id/radioBeneficios"
             android:layout_width="match_parent"
@@ -104,14 +122,12 @@
             android:hint="Digite aqui..."
             android:inputType="textMultiLine" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnProximo2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Próximo"
             android:layout_gravity="center"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="#6200EE"
-            android:textColor="#FFFFFF" />
+            android:layout_marginTop="24dp" />
     </LinearLayout>
 </ScrollView>

@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="?attr/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:text="Avaliação do Aplicativo"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#000000"
+            android:textColor="?attr/colorOnBackground"
             android:layout_marginBottom="16dp" />
 
         <!-- Pergunta 1 -->
@@ -103,14 +103,12 @@
             android:inputType="textMultiLine" />
 
         <!-- Botão Enviar -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEnviarFeedback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Enviar"
             android:layout_gravity="center"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="#4CAF50"
-            android:textColor="#FFFFFF"/>
+            android:layout_marginTop="24dp"/>
     </LinearLayout>
 </ScrollView>

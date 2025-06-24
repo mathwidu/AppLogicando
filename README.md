@@ -28,5 +28,7 @@ O aplicativo foi desenvolvido com atenção total à **Lei Geral de Proteção d
 
 - Java (Android SDK)
 - Android Studio
-- Componentes nativos (`RadioGroup`, `EditText`, `Button`, etc.)
+- Componentes do Material Design (`MaterialButton`, `TextInputLayout`, etc.)
 - Design responsivo com XML
+- Animações de transição entre telas e indicadores de progresso
+- Ajustes de acessibilidade usando `labelFor` e cores inclusivas
