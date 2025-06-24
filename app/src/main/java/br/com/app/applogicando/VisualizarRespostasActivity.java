@@ -1,5 +1,7 @@
 package br.com.app.applogicando;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,6 +18,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+
+import br.com.app.applogicando.ApiConfig;
 
 public class VisualizarRespostasActivity extends AppCompatActivity {
 
@@ -40,6 +44,16 @@ public class VisualizarRespostasActivity extends AppCompatActivity {
         senha = getIntent().getStringExtra("senha");
         formularioId = getIntent().getStringExtra("formularioId");
 
+        if (username == null || username.isEmpty() || senha == null || senha.isEmpty()) {
+            SharedPreferences prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+            if (username == null || username.isEmpty()) {
+                username = prefs.getString("username", "");
+            }
+            if (senha == null || senha.isEmpty()) {
+                senha = prefs.getString("senha", "");
+            }
+        }
+
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaRespostas);
         listViewRespostas.setAdapter(adapter);
 
@@ -55,8 +69,7 @@ public class VisualizarRespostasActivity extends AppCompatActivity {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
 
-                String basicAuth = "Basic " + android.util.Base64.encodeToString(
-                        (username + ":" + senha).getBytes(), android.util.Base64.NO_WRAP);
+                String basicAuth = ApiConfig.buildBasicAuthHeader(username, senha);
                 conn.setRequestProperty("Authorization", basicAuth);
 
                 int responseCode = conn.getResponseCode();
