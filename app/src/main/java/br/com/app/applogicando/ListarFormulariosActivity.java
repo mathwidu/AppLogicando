@@ -1,5 +1,7 @@
 package br.com.app.applogicando;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -41,15 +43,27 @@ public class ListarFormulariosActivity extends AppCompatActivity {
         username = getIntent().getStringExtra("username");
         senha = getIntent().getStringExtra("senha");
 
+        if (username == null || username.isEmpty() || senha == null || senha.isEmpty()) {
+            SharedPreferences prefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+            if (username == null || username.isEmpty()) {
+                username = prefs.getString("username", "");
+            }
+            if (senha == null || senha.isEmpty()) {
+                senha = prefs.getString("senha", "");
+            }
+        }
+
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaFormularios);
         listViewFormularios.setAdapter(adapter);
 
         listViewFormularios.setOnItemClickListener((parent, view, position, id) -> {
             String formularioId = listaFormularioIds.get(position);
             android.content.Intent intent = new android.content.Intent(this, VisualizarRespostasActivity.class);
+            android.os.Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                intent.putExtras(extras);
+            }
             intent.putExtra("formularioId", formularioId);
-            intent.putExtra("username", username);
-            intent.putExtra("senha", senha);
             startActivity(intent);
         });
 
