@@ -18,6 +18,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+import br.com.app.applogicando.ApiConfig;
+
 public class CriarFormularioActivity extends AppCompatActivity {
 
     EditText editTituloFormulario;
@@ -55,7 +57,7 @@ public class CriarFormularioActivity extends AppCompatActivity {
     private void criarFormulario(String titulo, String token) {
         new Thread(() -> {
             try {
-                URL url = new URL("https://logicando-api.onrender.com/formularios");
+                URL url = new URL(ApiConfig.BASE_URL + "/formularios");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/json");

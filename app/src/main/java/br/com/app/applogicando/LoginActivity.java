@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Base64;
+
+import br.com.app.applogicando.ApiConfig;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -57,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     private void autenticarUsuario(String username, String senha, String token) {
         new Thread(() -> {
             try {
-                URL url = new URL("https://logicando-api.onrender.com/usuarios");
+                URL url = new URL(ApiConfig.BASE_URL + "/usuarios");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
                 conn.setRequestProperty("Authorization", "Basic " + token);

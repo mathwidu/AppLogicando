@@ -16,6 +16,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import br.com.app.applogicando.ApiConfig;
+
 public class CadastroActivity extends AppCompatActivity {
 
     EditText editNome, editUsernameCadastro, editSenhaCadastro;
@@ -52,7 +54,7 @@ public class CadastroActivity extends AppCompatActivity {
     private void cadastrarUsuario(String nome, String username, String senha, String papel) {
         new Thread(() -> {
             try {
-                URL url = new URL("https://logicando-api.onrender.com/usuarios");
+                URL url = new URL(ApiConfig.BASE_URL + "/usuarios");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/json");

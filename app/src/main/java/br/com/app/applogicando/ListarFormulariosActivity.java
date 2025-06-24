@@ -17,6 +17,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import br.com.app.applogicando.ApiConfig;
+
 public class ListarFormulariosActivity extends AppCompatActivity {
 
     private ListView listViewFormularios;
@@ -49,12 +51,11 @@ public class ListarFormulariosActivity extends AppCompatActivity {
     private void carregarFormularios() {
         new Thread(() -> {
             try {
-                URL url = new URL("https://logicando-api.onrender.com/formularios");
+                URL url = new URL(ApiConfig.BASE_URL + "/formularios");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
 
-                String basicAuth = "Basic " + android.util.Base64.encodeToString(
-                        (username + ":" + senha).getBytes(), android.util.Base64.NO_WRAP);
+                String basicAuth = ApiConfig.buildBasicAuthHeader(username, senha);
                 conn.setRequestProperty("Authorization", basicAuth);
 
                 int responseCode = conn.getResponseCode();

@@ -19,6 +19,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import br.com.app.applogicando.ApiConfig;
+
 public class CriarPerguntaActivity extends AppCompatActivity {
 
     EditText editTextoPergunta;
@@ -95,7 +97,7 @@ public class CriarPerguntaActivity extends AppCompatActivity {
     private void adicionarPergunta(String formularioId, String texto, String tipo, String token, JSONArray opcoes) {
         new Thread(() -> {
             try {
-                URL url = new URL("https://logicando-api.onrender.com/perguntas");
+                URL url = new URL(ApiConfig.BASE_URL + "/perguntas");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/json");
