@@ -36,6 +36,7 @@
         <activity android:name=".Form2Activity" />
         <activity android:name=".Form1Activity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".ComentariosActivity" />
 
 
         <provider
