@@ -1,8 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.AppLogicando" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Corrige o estilo padrão dos botões para não usar Material3 -->
+        <item name="buttonStyle">@style/Widget.AppCompat.Button</item>
+        <item name="materialButtonStyle">@style/Widget.AppCompat.Button</item>
+
+        <!-- Cor da Status Bar e Navigation Bar -->
+        <item name="android:statusBarColor">#0B2C4B</item>
+        <item name="android:navigationBarColor">#0B2C4B</item>
+
+        <!-- Ícones brancos na status bar (fundo escuro) -->
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="Theme.AppLogicando" parent="Base.Theme.AppLogicando" />

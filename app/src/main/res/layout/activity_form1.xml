@@ -1,81 +1,169 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#0B2C4B">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="32dp"
+        android:layout_above="@+id/scrollHint">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Barra de Progresso -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/textProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Perguntas 1 de 3"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#D3DEE9"
+                    android:layout_marginRight="12dp" />
+
+                <ProgressBar
+                    style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="8dp"
+                    android:layout_weight="1"
+                    android:progress="33"
+                    android:max="100"
+                    android:progressTint="#4CAF50"
+                    android:contentDescription="Progresso das perguntas: 1 de 3" />
+            </LinearLayout>
+
+            <!-- Título -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Organização e Estrutura"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Pergunta 1 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. Quanto ao local e os materiais disponíveis para a realização das atividades do projeto, estou:"
+                android:textSize="16sp"
+                android:textColor="#D3DEE9"
+                android:layout_marginBottom="8dp" />
+
+            <RadioGroup
+                android:id="@+id/radioLocal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton android:id="@+id/opcaoLocal1" android:text="Muito Insatisfeito" style="@style/CustomRadioButton"/>
+                <RadioButton android:id="@+id/opcaoLocal2" android:text="Insatisfeito" style="@style/CustomRadioButton"/>
+                <RadioButton android:id="@+id/opcaoLocal3" android:text="Parcialmente Satisfeito" style="@style/CustomRadioButton"/>
+                <RadioButton android:id="@+id/opcaoLocal4" android:text="Satisfeito" style="@style/CustomRadioButton"/>
+                <RadioButton android:id="@+id/opcaoLocal5" android:text="Muito Satisfeito" style="@style/CustomRadioButton"/>
+                <RadioButton android:id="@+id/opcaoLocalSCO" android:text="Sem condições de opinar" style="@style/CustomRadioButton"/>
+            </RadioGroup>
+
+            <!-- Pergunta 2 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2. Quanto ao horário (dias e turnos) em que ocorrem as atividades do projeto, estou:"
+                android:textSize="16sp"
+                android:textColor="#D3DEE9"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp" />
+
+            <RadioGroup
+                android:id="@+id/radioHorario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton android:id="@+id/opcaoHorario1" android:text="Muito Insatisfeito" style="@style/CustomRadioButton"/>
+                <RadioButton android:id="@+id/opcaoHorario2" android:text="Insatisfeito" style="@style/CustomRadioButton"/>
+                <RadioButton android:id="@+id/opcaoHorario3" android:text="Parcialmente Satisfeito" style="@style/CustomRadioButton"/>
+                <RadioButton android:id="@+id/opcaoHorario4" android:text="Satisfeito" style="@style/CustomRadioButton"/>
+                <RadioButton android:id="@+id/opcaoHorario5" android:text="Muito Satisfeito" style="@style/CustomRadioButton"/>
+                <RadioButton android:id="@+id/opcaoHorarioSCO" android:text="Sem condições de opinar" style="@style/CustomRadioButton"/>
+            </RadioGroup>
+
+            <!-- Comentários -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Comentários e sugestões:"
+                android:textSize="16sp"
+                android:textColor="#D3DEE9"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="* Esta pergunta é opcional"
+                android:textSize="12sp"
+                android:textColor="#B0C4DE"
+                android:gravity="end"
+                android:layout_marginBottom="4dp" />
+
+            <EditText
+                android:id="@+id/editComentariosOrg"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:hint="Digite aqui..."
+                android:gravity="top"
+                android:background="#1A3D5A"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#B0C4DE"
+                android:textSize="15sp"
+                android:padding="12dp"
+                android:elevation="2dp"
+                android:inputType="textMultiLine"
+                android:contentDescription="Campo para comentários e sugestões sobre a organização e estrutura" />
+
+            <!-- Botão Próximo -->
+            <Button
+                android:id="@+id/btnProximo1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Próximo"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/bg_botao_arredondado"
+                android:textColor="#FFFFFF"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:elevation="6dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Indicação para rolar -->
+    <TextView
+        android:id="@+id/scrollHint"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Organização e Estrutura"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:layout_marginBottom="16dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="1. Quanto ao local e os materiais disponíveis para a realização das atividades do projeto, estou:" />
-
-        <RadioGroup
-            android:id="@+id/radioLocal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <RadioButton android:id="@+id/opcaoLocal1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1 - Muito Insatisfeito" />
-            <RadioButton android:id="@+id/opcaoLocal2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2 - Insatisfeito" />
-            <RadioButton android:id="@+id/opcaoLocal3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="3 - Parcialmente Satisfeito" />
-            <RadioButton android:id="@+id/opcaoLocal4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="4 - Satisfeito" />
-            <RadioButton android:id="@+id/opcaoLocal5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="5 - Muito Satisfeito" />
-            <RadioButton android:id="@+id/opcaoLocalSCO" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SCO - Sem condições de opinar" />
-        </RadioGroup>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="2. Quanto ao horário (dias e turnos) em que ocorrem as atividades do projeto, estou:"
-            android:layout_marginTop="16dp" />
-
-        <RadioGroup
-            android:id="@+id/radioHorario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <RadioButton android:id="@+id/opcaoHorario1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1 - Muito Insatisfeito" />
-            <RadioButton android:id="@+id/opcaoHorario2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2 - Insatisfeito" />
-            <RadioButton android:id="@+id/opcaoHorario3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="3 - Parcialmente Satisfeito" />
-            <RadioButton android:id="@+id/opcaoHorario4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="4 - Satisfeito" />
-            <RadioButton android:id="@+id/opcaoHorario5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="5 - Muito Satisfeito" />
-            <RadioButton android:id="@+id/opcaoHorarioSCO" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SCO - Sem condições de opinar" />
-        </RadioGroup>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="3. Comentários e sugestões em relação à organização e estrutura:"
-            android:layout_marginTop="16dp" />
-
-        <EditText
-            android:id="@+id/editComentariosOrg"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:hint="Digite aqui..."
-            android:gravity="top"
-            android:inputType="textMultiLine" />
-
-        <Button
-            android:id="@+id/btnProximo1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Próximo"
-            android:layout_gravity="center"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="#6200EE"
-            android:textColor="#FFFFFF" />
-    </LinearLayout>
-</ScrollView>
+        android:text="Role para ver mais"
+        android:textColor="#AAAAAA"
+        android:textSize="12sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp" />
+</RelativeLayout>

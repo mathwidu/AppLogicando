@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomRadioButton" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:buttonTint">#FFFFFF</item>
+    </style>
+</resources>

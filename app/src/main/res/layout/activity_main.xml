@@ -1,47 +1,62 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#0B2C4B">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        android:padding="24dp">
+        android:gravity="center_horizontal"
+        android:padding="32dp">
 
+        <!-- Logo -->
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@mipmap/ic_launcher"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:src="@drawable/logo_logicando"
             android:contentDescription="Logo do projeto"
-            android:layout_gravity="center"/>
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/bg_logo"
+            android:padding="16dp" />
 
+        <!-- Título -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bem-vindo ao Logicando!"
-            android:textSize="22sp"
+            android:textSize="26sp"
             android:textStyle="bold"
-            android:paddingTop="16dp"
-            android:textColor="#000000" />
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="16dp" />
 
+        <!-- Descrição -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Este questionário tem como objetivo avaliar a experiência dos participantes nas atividades do projeto Logicando. Sua opinião é muito importante para melhorarmos continuamente. O preenchimento é anônimo e rápido."
+            android:text="Este questionário avalia sua experiência no projeto Logicando. Sua opinião é essencial para melhorarmos. É rápido, anônimo e seguro."
             android:textSize="16sp"
-            android:textColor="#333333"
-            android:lineSpacingExtra="8dp"
-            android:layout_marginTop="24dp" />
+            android:textColor="#D3DEE9"
+            android:gravity="center"
+            android:lineSpacingExtra="6dp"
+            android:layout_marginBottom="32dp" />
 
+        <!-- Botão azul -->
         <Button
             android:id="@+id/btnComecar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Começar Avaliação"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="#6200EE"
-            android:textColor="#FFFFFF" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:elevation="6dp"
+            android:background="@drawable/bg_botao_arredondado"
+            android:layout_marginBottom="48dp" />
     </LinearLayout>
 </ScrollView>

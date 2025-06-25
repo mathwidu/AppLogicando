@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#00B4F1" /> <!-- Azul do botão do site -->
+    <corners android:radius="50dp" />
+</shape>
