@@ -12,11 +12,16 @@ import java.io.FileWriter;
 
 public class Exportador {
 
+    private static final String NOME_CSV = "respostas.csv";
+    private static final String NOME_JSON = "respostas.json";
+
+    // Chamada principal de exportação
     public static void exportar(Context context, Resposta resposta) {
         exportarCSV(context, resposta);
         exportarJSON(context, resposta);
     }
 
+    // Exportar como CSV
     private static void exportarCSV(Context context, Resposta r) {
         try {
             File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
@@ -24,7 +29,7 @@ public class Exportador {
                 dir.mkdirs();
             }
 
-            File file = new File(dir, "respostas.csv");
+            File file = new File(dir, NOME_CSV);
             boolean novoArquivo = !file.exists();
 
             FileWriter fw = new FileWriter(file, true);
@@ -47,6 +52,7 @@ public class Exportador {
         }
     }
 
+    // Exportar como JSON
     private static void exportarJSON(Context context, Resposta r) {
         try {
             File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
@@ -54,7 +60,7 @@ public class Exportador {
                 dir.mkdirs();
             }
 
-            File file = new File(dir, "respostas.json");
+            File file = new File(dir, NOME_JSON);
 
             JSONObject obj = new JSONObject();
             obj.put("local", r.local);
@@ -77,5 +83,26 @@ public class Exportador {
         } catch (Exception e) {
             Toast.makeText(context, "Erro JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    // 🔍 Novo método: obter arquivo CSV
+    public static File getArquivoCSV() {
+        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        return new File(dir, NOME_CSV);
+    }
+
+    // 🔍 Novo método: obter arquivo JSON
+    public static File getArquivoJSON() {
+        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        return new File(dir, NOME_JSON);
+    }
+
+    // 🧹 Novo método: apagar ambos os arquivos
+    public static boolean apagarArquivos() {
+        File csv = getArquivoCSV();
+        File json = getArquivoJSON();
+        boolean deletadoCSV = !csv.exists() || csv.delete();
+        boolean deletadoJSON = !json.exists() || json.delete();
+        return deletadoCSV && deletadoJSON;
     }
 }
