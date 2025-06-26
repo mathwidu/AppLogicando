@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Permite acesso à pasta Download -->
-    <external-path name="download" path="Download/" />
+    <!-- Correto para getExternalFilesDir() -->
+    <external-files-path
+        name="meus_arquivos"
+        path="." />
 </paths>

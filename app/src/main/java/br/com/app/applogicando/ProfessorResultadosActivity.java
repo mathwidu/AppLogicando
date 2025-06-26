@@ -2,12 +2,14 @@ package br.com.app.applogicando;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -25,8 +27,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-// ... [mesmo início de imports e declarações] ...
 
 public class ProfessorResultadosActivity extends AppCompatActivity {
 
@@ -67,6 +67,13 @@ public class ProfessorResultadosActivity extends AppCompatActivity {
         List<Map<String, Integer>> todosResultados = RelatorioProcessor.contarFrequencias(this);
         List<Map<String, List<String>>> todosComentarios = RelatorioProcessor.coletarComentarios(this);
 
+        // ✅ Verifica se há dados antes de continuar
+        if (todosResultados == null || todosResultados.isEmpty()) {
+            Toast.makeText(this, "Nenhuma resposta encontrada. Peça que um aluno responda primeiro.", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+
         for (int i : indicesComEscala) {
             resultadosEscala.add(todosResultados.get(i));
             titulosEscala.add(titulosTodas[i]);
@@ -76,10 +83,12 @@ public class ProfessorResultadosActivity extends AppCompatActivity {
         int[] indicesComentarios = {2, 7, 9};
         for (int i = 0; i < indicesComentarios.length; i++) {
             Map<String, List<String>> bloco = todosComentarios.get(indicesComentarios[i]);
-            comentariosPorPergunta.put(chavesComentario[i], bloco.get("respostas"));
+            if (bloco != null && bloco.get("respostas") != null) {
+                comentariosPorPergunta.put(chavesComentario[i], bloco.get("respostas"));
+            }
         }
 
-        // Legenda colorida
+        // Legenda
         String[] categorias = {"1", "2", "3", "4", "5", "SCO"};
         String[] descricoes = {
                 "Muito Insatisfeito", "Insatisfeito", "Parcialmente Satisfeito",
@@ -105,11 +114,7 @@ public class ProfessorResultadosActivity extends AppCompatActivity {
                 .show()
         );
 
-        if (!resultadosEscala.isEmpty()) {
-            exibirGrafico(perguntaAtual);
-        } else {
-            txtTituloPergunta.setText("Nenhuma resposta disponível.");
-        }
+        exibirGrafico(perguntaAtual);
 
         btnProximo.setOnClickListener(v -> {
             if (perguntaAtual < resultadosEscala.size() - 1) {
@@ -134,16 +139,23 @@ public class ProfessorResultadosActivity extends AppCompatActivity {
         Map<String, Integer> frequencias = resultadosEscala.get(indice);
         txtTituloPergunta.setText("Pergunta: " + titulosEscala.get(indice));
 
-        String[] labelsCurto = {"1", "2", "3", "4", "5", "SCO"};
-        String[] chavesCSV = {
-                "1 - Muito Insatisfeito",
-                "2 - Insatisfeito",
-                "3 - Parcialmente Satisfeito",
-                "4 - Satisfeito",
-                "5 - Muito Satisfeito",
-                "Sem condições de opinar"
-        };
+        Log.d("DEBUG_LOGICANDO", "Exibindo gráfico da pergunta: " + titulosEscala.get(indice));
 
+        // Mapeamento alternativo para lidar com chaves diferentes
+        Map<String, String> alternativas = new HashMap<>();
+        alternativas.put("Muito Insatisfeito", "1 - Muito Insatisfeito");
+        alternativas.put("Insatisfeito", "2 - Insatisfeito");
+        alternativas.put("Parcialmente Satisfeito", "3 - Parcialmente Satisfeito");
+        alternativas.put("Satisfeito", "4 - Satisfeito");
+        alternativas.put("Muito Satisfeito", "5 - Muito Satisfeito");
+        alternativas.put("SCO", "Sem condições de opinar");
+        alternativas.put("1", "1 - Muito Insatisfeito");
+        alternativas.put("2", "2 - Insatisfeito");
+        alternativas.put("3", "3 - Parcialmente Satisfeito");
+        alternativas.put("4", "4 - Satisfeito");
+        alternativas.put("5", "5 - Muito Satisfeito");
+
+        String[] labelsCurto = {"1", "2", "3", "4", "5", "SCO"};
         Map<String, Integer> coresPorCategoria = new HashMap<>();
         coresPorCategoria.put("1", 0xFFF44336);
         coresPorCategoria.put("2", 0xFFFF9800);
@@ -157,14 +169,38 @@ public class ProfessorResultadosActivity extends AppCompatActivity {
         List<Integer> cores = new ArrayList<>();
 
         for (int i = 0; i < labelsCurto.length; i++) {
-            String categoriaCurta = labelsCurto[i];
-            String chaveCSV = chavesCSV[i];
-            Integer valor = frequencias.get(chaveCSV);
+            String labelCurto = labelsCurto[i];
+            String chaveEsperada = alternativas.get(labelCurto);
+
+            // Procura por chave exata ou por forma alternativa
+            Integer valor = frequencias.get(chaveEsperada);
+            if (valor == null) valor = frequencias.get(labelCurto);
+            if (valor == null) valor = frequencias.get(alternativas.get(labelCurto));
+            if (valor == null) valor = frequencias.get(labelCurto.equals("SCO") ? "Sem condições de opinar" : null);
+
+            // Última tentativa: procurar pela descrição direta (por exemplo "Insatisfeito")
+            if (valor == null) {
+                for (String alternativa : alternativas.keySet()) {
+                    if (frequencias.containsKey(alternativa)) {
+                        if (alternativas.get(alternativa).equals(chaveEsperada)) {
+                            valor = frequencias.get(alternativa);
+                            break;
+                        }
+                    }
+                }
+            }
+
             if (valor != null) {
                 entries.add(new BarEntry(labels.size(), valor));
-                labels.add(categoriaCurta);
-                cores.add(coresPorCategoria.get(categoriaCurta));
+                labels.add(labelCurto);
+                cores.add(coresPorCategoria.get(labelCurto));
+                Log.d("DEBUG_LOGICANDO", "Entrada adicionada: " + labelCurto + " => " + valor);
             }
+        }
+
+        Log.d("DEBUG_LOGICANDO", "Total de barras adicionadas: " + entries.size());
+        if (entries.isEmpty()) {
+            Toast.makeText(this, "Nenhum dado encontrado para essa pergunta.", Toast.LENGTH_SHORT).show();
         }
 
         BarDataSet dataSet = new BarDataSet(entries, "");
@@ -184,7 +220,7 @@ public class ProfessorResultadosActivity extends AppCompatActivity {
         xAxis.setTextColor(0xFFFFFFFF);
         xAxis.setTextSize(14f);
         xAxis.setLabelRotationAngle(0);
-        xAxis.setYOffset(10f); // espaço para rótulo
+        xAxis.setYOffset(10f);
 
         YAxis yAxisLeft = barChart.getAxisLeft();
         yAxisLeft.setTextColor(0xFFFFFFFF);
@@ -194,11 +230,14 @@ public class ProfessorResultadosActivity extends AppCompatActivity {
         barChart.getAxisRight().setEnabled(false);
         barChart.getLegend().setEnabled(false);
         barChart.getDescription().setEnabled(false);
-        barChart.setExtraBottomOffset(30f); // espaço extra para "Tipo de resposta"
+        barChart.setExtraBottomOffset(30f);
         barChart.setFitBars(true);
         barChart.animateY(1000);
         barChart.invalidate();
     }
+
+
+
 
     private void abrirComentarios() {
         ComentariosHolder.setComentarios(comentariosPorPergunta);
@@ -206,7 +245,7 @@ public class ProfessorResultadosActivity extends AppCompatActivity {
     }
 
     private void enviarArquivoPorEmail() {
-        File arquivo = Exportador.getArquivoCSV();
+        File arquivo = Exportador.getArquivoCSV(this);
         if (arquivo == null || !arquivo.exists()) {
             Toast.makeText(this, "Arquivo de respostas não encontrado.", Toast.LENGTH_SHORT).show();
             return;
@@ -215,11 +254,17 @@ public class ProfessorResultadosActivity extends AppCompatActivity {
         Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".provider", arquivo);
 
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setType("text/plain");
+        emailIntent.setType("application/csv");
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Respostas da Avaliação");
         emailIntent.putExtra(Intent.EXTRA_TEXT, "Segue em anexo o arquivo com as respostas coletadas.");
         emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
         emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        List<ResolveInfo> resInfoList = getPackageManager().queryIntentActivities(emailIntent, 0);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            grantUriPermission(packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
 
         startActivity(Intent.createChooser(emailIntent, "Enviar respostas por e-mail..."));
     }
@@ -234,7 +279,7 @@ public class ProfessorResultadosActivity extends AppCompatActivity {
     }
 
     private void apagarArquivos() {
-        boolean sucesso = Exportador.apagarArquivos();
+        boolean sucesso = Exportador.apagarArquivos(this);
         if (sucesso) {
             Toast.makeText(this, "Arquivos apagados com sucesso.", Toast.LENGTH_SHORT).show();
             recreate();
@@ -243,4 +288,3 @@ public class ProfessorResultadosActivity extends AppCompatActivity {
         }
     }
 }
-

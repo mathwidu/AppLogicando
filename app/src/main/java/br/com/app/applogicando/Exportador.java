@@ -24,7 +24,12 @@ public class Exportador {
     // Exportar como CSV
     private static void exportarCSV(Context context, Resposta r) {
         try {
-            File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File dir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+            if (dir == null) {
+                Toast.makeText(context, "Erro: diretório de exportação indisponível.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if (!dir.exists()) {
                 dir.mkdirs();
             }
@@ -39,23 +44,51 @@ public class Exportador {
             }
 
             fw.write(String.format("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n",
-                    r.local, r.horario, r.comentarioOrg,
-                    r.beneficios, r.trocas, r.comprometimento, r.planejamento, r.comentarioParticipacao,
-                    r.divulgacao, r.comentarioDivulgacao));
+                    formatarResposta(r.local),
+                    formatarResposta(r.horario),
+                    r.comentarioOrg,
+                    formatarResposta(r.beneficios),
+                    formatarResposta(r.trocas),
+                    formatarResposta(r.comprometimento),
+                    formatarResposta(r.planejamento),
+                    r.comentarioParticipacao,
+                    formatarResposta(r.divulgacao),
+                    r.comentarioDivulgacao
+            ));
 
             fw.close();
 
             Log.d("Exportador", "CSV exportado para: " + file.getAbsolutePath());
-            Toast.makeText(context, "CSV salvo em Downloads!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "CSV salvo com sucesso!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(context, "Erro CSV: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Mapeia valores numéricos para descrições esperadas pelo gráfico
+    private static String formatarResposta(String valor) {
+        switch (valor) {
+            case "1": return "1 - Muito Insatisfeito";
+            case "2": return "2 - Insatisfeito";
+            case "3": return "3 - Parcialmente Satisfeito";
+            case "4": return "4 - Satisfeito";
+            case "5": return "5 - Muito Satisfeito";
+            case "SCO":
+            case "sco":
+            case "S": return "Sem condições de opinar";
+            default: return valor;
         }
     }
 
     // Exportar como JSON
     private static void exportarJSON(Context context, Resposta r) {
         try {
-            File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File dir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+            if (dir == null) {
+                Toast.makeText(context, "Erro: diretório de exportação indisponível.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if (!dir.exists()) {
                 dir.mkdirs();
             }
@@ -63,15 +96,15 @@ public class Exportador {
             File file = new File(dir, NOME_JSON);
 
             JSONObject obj = new JSONObject();
-            obj.put("local", r.local);
-            obj.put("horario", r.horario);
+            obj.put("local", formatarResposta(r.local));
+            obj.put("horario", formatarResposta(r.horario));
             obj.put("comentarioOrg", r.comentarioOrg);
-            obj.put("beneficios", r.beneficios);
-            obj.put("trocas", r.trocas);
-            obj.put("comprometimento", r.comprometimento);
-            obj.put("planejamento", r.planejamento);
+            obj.put("beneficios", formatarResposta(r.beneficios));
+            obj.put("trocas", formatarResposta(r.trocas));
+            obj.put("comprometimento", formatarResposta(r.comprometimento));
+            obj.put("planejamento", formatarResposta(r.planejamento));
             obj.put("comentarioParticipacao", r.comentarioParticipacao);
-            obj.put("divulgacao", r.divulgacao);
+            obj.put("divulgacao", formatarResposta(r.divulgacao));
             obj.put("comentarioDivulgacao", r.comentarioDivulgacao);
 
             FileWriter fw = new FileWriter(file, true);
@@ -79,28 +112,28 @@ public class Exportador {
             fw.close();
 
             Log.d("Exportador", "JSON exportado para: " + file.getAbsolutePath());
-            Toast.makeText(context, "JSON salvo em Downloads!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "JSON salvo com sucesso!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(context, "Erro JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    // 🔍 Novo método: obter arquivo CSV
-    public static File getArquivoCSV() {
-        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+    // Obter arquivo CSV
+    public static File getArquivoCSV(Context context) {
+        File dir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         return new File(dir, NOME_CSV);
     }
 
-    // 🔍 Novo método: obter arquivo JSON
-    public static File getArquivoJSON() {
-        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+    // Obter arquivo JSON
+    public static File getArquivoJSON(Context context) {
+        File dir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         return new File(dir, NOME_JSON);
     }
 
-    // 🧹 Novo método: apagar ambos os arquivos
-    public static boolean apagarArquivos() {
-        File csv = getArquivoCSV();
-        File json = getArquivoJSON();
+    // Apagar arquivos
+    public static boolean apagarArquivos(Context context) {
+        File csv = getArquivoCSV(context);
+        File json = getArquivoJSON(context);
         boolean deletadoCSV = !csv.exists() || csv.delete();
         boolean deletadoJSON = !json.exists() || json.delete();
         return deletadoCSV && deletadoJSON;

@@ -1,7 +1,6 @@
 package br.com.app.applogicando;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -19,23 +18,33 @@ public class RelatorioProcessor {
         List<Map<String, Integer>> resultados = new ArrayList<>();
 
         try {
-            File arquivo = Exportador.getArquivoCSV();
+            File arquivo = Exportador.getArquivoCSV(context);
             if (arquivo == null || !arquivo.exists()) return resultados;
 
             BufferedReader br = new BufferedReader(new FileReader(arquivo));
-            String linha;
+            String cabecalhoLinha = br.readLine();
 
-            // Lê cabeçalho
-            String[] cabecalhos = br.readLine().split(",");
+            if (cabecalhoLinha == null || cabecalhoLinha.trim().isEmpty()) {
+                br.close();
+                return resultados;
+            }
+
+            String[] cabecalhos = cabecalhoLinha.split(",");
 
             // Inicializa um mapa para cada pergunta
             for (int i = 0; i < cabecalhos.length; i++) {
                 resultados.add(new HashMap<>());
             }
 
-            // Lê cada linha
+            String linha;
             while ((linha = br.readLine()) != null) {
+                linha = linha.trim();
+                if (linha.startsWith("\"") && linha.endsWith("\"")) {
+                    linha = linha.substring(1, linha.length() - 1);
+                }
+
                 String[] respostas = linha.split("\",\"");
+
                 for (int i = 0; i < respostas.length && i < resultados.size(); i++) {
                     String resp = respostas[i].replace("\"", "").trim();
                     Map<String, Integer> mapaPergunta = resultados.get(i);
@@ -52,35 +61,41 @@ public class RelatorioProcessor {
         return resultados;
     }
 
-    // Novo método: coleta todas as respostas textuais por pergunta
+    // Coleta os comentários de cada pergunta
     public static List<Map<String, List<String>>> coletarComentarios(Context context) {
         List<Map<String, List<String>>> comentarios = new ArrayList<>();
 
         try {
-            File arquivo = Exportador.getArquivoCSV();
+            File arquivo = Exportador.getArquivoCSV(context);
             if (arquivo == null || !arquivo.exists()) return comentarios;
 
             BufferedReader br = new BufferedReader(new FileReader(arquivo));
-            String linha;
+            String cabecalhoLinha = br.readLine();
 
-            // Lê cabeçalho
-            String[] cabecalhos = br.readLine().split(",");
+            if (cabecalhoLinha == null || cabecalhoLinha.trim().isEmpty()) {
+                br.close();
+                return comentarios;
+            }
 
-            // Inicializa um mapa com uma lista de respostas para cada pergunta
+            String[] cabecalhos = cabecalhoLinha.split(",");
             for (int i = 0; i < cabecalhos.length; i++) {
                 Map<String, List<String>> mapa = new HashMap<>();
                 mapa.put("respostas", new ArrayList<>());
                 comentarios.add(mapa);
             }
 
-            // Lê respostas
+            String linha;
             while ((linha = br.readLine()) != null) {
+                linha = linha.trim();
+                if (linha.startsWith("\"") && linha.endsWith("\"")) {
+                    linha = linha.substring(1, linha.length() - 1);
+                }
+
                 String[] respostas = linha.split("\",\"");
+
                 for (int i = 0; i < respostas.length && i < comentarios.size(); i++) {
                     String resp = respostas[i].replace("\"", "").trim();
-                    if (!resp.isEmpty()) {
-                        comentarios.get(i).get("respostas").add(resp);
-                    }
+                    comentarios.get(i).get("respostas").add(resp);
                 }
             }
 
